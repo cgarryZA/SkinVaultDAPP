@@ -6,11 +6,11 @@
   const VAULT_ABI = [
     'function owner() view returns (address)',
     'function vaultManager() view returns (address)',
-    'function ETHBalance() view returns (uint256)',
-    'function VaultValuation() view returns (uint256)',
-    'function InherentSKINDEXValue() view returns (uint256)',
-    'function skinsValueWei() view returns (uint256)',
-    'function btcReserveValueWei() view returns (uint256)',
+    'function getBalETH() view returns (uint256)',
+    'function getNAV() view returns (uint256)',
+    'function getNavPerToken() view returns (uint256)',
+    'function skinsVal() view returns (uint256)',
+    'function btcVal() view returns (uint256)',
     'event Minted(address indexed user, uint256 ethIn, uint256 tokensToUser)',
     'event Burned(address indexed user, uint256 tokensBurned, uint256 ethOut)'
   ];
@@ -65,11 +65,11 @@
     ] = await Promise.all([
       vault.owner(),
       vault.vaultManager(),
-      vault.ETHBalance(),
-      vault.VaultValuation(),
-      vault.InherentSKINDEXValue(),
-      vault.skinsValueWei(),
-      vault.btcReserveValueWei()
+      vault.getBalETH(),
+      vault.getNAV(),
+      vault.getNavPerToken(),
+      vault.skinsVal(),
+      vault.btcVal()
     ]);
     return {
       owner,

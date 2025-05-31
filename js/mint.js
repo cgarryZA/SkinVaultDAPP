@@ -72,12 +72,12 @@ async function initMintPage() {
   // 6) Fetch & render all stats
   async function updateStats() {
     const [navP, vaultV, userSK, burnFeeBP, mintFeeBP, devFeeBP] = await Promise.all([
-      vault.InherentSKINDEXValue(),
-      vault.VaultValuation(),
+      vault.getNavPerToken(),
+      vault.getNAV(),
       skindex.balanceOf(user),
       vault.burnFeeBP(),
       vault.mintFeeBP(),
-      vault.DEV_FEE_BP()
+      vault.devFeeBP()
     ]);
     const userEthBal = await provider.getBalance(user);
 

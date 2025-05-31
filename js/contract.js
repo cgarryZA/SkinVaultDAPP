@@ -1,33 +1,39 @@
 // common.js (updated to match SkinVault.sol)
-const VAULT_ADDRESS   = '0xa82832a77C06e148560470d6c2efBAb0B3B332Bb';
+const VAULT_ADDRESS   = '0xFEd23180494cADe2231f0470a2450BC9Ac7F25e9';
 const SKINDEX_ADDRESS = '0x2E22a92eF5562688B97df46d8AAa01Ad86597F66';
 
 // SkinVault ABI - names/signatures updated to match Solidity implementation
 const VAULT_ABI = [
   'function owner() view returns (address)',
   'function vaultManager() view returns (address)',
-  'function ETHBalance() view returns (uint256)',
-  'function VaultValuation() view returns (uint256)',
-  'function InherentSKINDEXValue() view returns (uint256)',
-  'function skinsValueWei() view returns (uint256)',
-  'function btcReserveValueWei() view returns (uint256)',
-  'function SendETHToContract() payable',
+  'function getBalETH() view returns (uint256)',
+  'function getNAV() view returns (uint256)',
+  'function getNavPerToken() view returns (uint256)',
+  'function skinsVal() view returns (uint256)',
+  'function btcVal() view returns (uint256)',
+  'function recieveEth() payable',
   'function mint() payable',
   'function burn(uint256)',
-  'function seedVault()',
   'function pause()',
   'function unpause()',
   'function setVaultManager(address)',
   'function setDeveloper(address)',
-  'function setSkinsValue(uint256)',
-  'function setBtcReserveValue(uint256)',
+  'function setValSkins(uint256)',
+  'function setValBtc(uint256)',
   'function setMintFeeBP(uint256)',
   'function setBurnFeeBP(uint256)',
-  'function setDeveloperFeeBP(uint256)',
-  'function SendETHToExternalWallet(uint256,address)',
-  'function mintFeeBP()             view returns (uint256)', 
-  'function burnFeeBP()             view returns (uint256)',
-  'function DEV_FEE_BP()            view returns (uint256)',
+  'function setDevFeeBP(uint256)',
+  'function setSkinPoolBP(uint256)',
+  'function setBtcPoolBP(uint256)',
+  'function setPools(uint256,uint256)',
+  'function sendEthToWallet(uint256)',
+  'function EthToBtc(uint256)',
+  'function BtcToEth(uint256)',
+  'function EthToSkins(uint256)',
+  'function SkinsToEth(uint256)',
+  'function devFeeBP()             view returns (uint256)', 
+  'function mintFeeBP()            view returns (uint256)',
+  'function burnFeeBP()            view returns (uint256)'
 ];
 
 // ERC20 ABI for SKINDEX token
