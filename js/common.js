@@ -26,7 +26,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('metamaskModal').style.display = 'flex';
   }
 
-  document.getElementById('connectMetamaskBtn').onclick = async () => {
+  try{
+      document.getElementById('connectMetamaskBtn').onclick = async () => {
     if (!window.ethereum) {
       document.getElementById('metamaskError').textContent = 'MetaMask is not installed.';
       document.getElementById('metamaskError').style.display = 'block';
@@ -42,6 +43,9 @@ window.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('metamaskError').style.display = 'block';
     }
   };
+  } catch (err) {
+    
+  }
 });
 
 function showToast(message, timeout=4000) {
