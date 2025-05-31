@@ -1,0 +1,67 @@
+/* Header */
+.site-header {
+  background: #111827;
+  padding: 1rem 0;
+}
+
+/* Container with Flexbox for alignment */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width:none;
+}
+
+/* Set exact positioning from edges */
+.logo {
+  margin-left: 5rem; /* Adjust this to your preferred distance from the left */
+}
+
+.logo img {
+  height: 5rem;
+}
+
+/* Navigation styling */
+.main-nav {
+  margin-right: 5rem; /* Adjust this to your preferred distance from the right */
+}
+
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+}
+
+.main-nav a {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+  color: #3b82f6;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .logo {
+    margin-left: 1rem; /* closer spacing on smaller screens */
+  }
+
+  .main-nav {
+    margin-right: 1rem;
+  }
+
+  .main-nav ul {
+    gap: 1rem; /* smaller gap on smaller screens */
+  }
+
+  .logo img {
+    height: 4rem; /* slightly smaller on mobile */
+  }
+}

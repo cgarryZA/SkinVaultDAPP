@@ -1,0 +1,88 @@
+.docs-container {
+  display: flex;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.docs-nav {
+  width: 250px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  padding-right: 1rem;
+  border-right: 1px solid #ccc;
+}
+
+.docs-nav h3 {
+  margin-bottom: 1rem;
+}
+
+.docs-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.docs-nav ul li {
+  margin-bottom: 0.5rem;
+}
+
+.docs-nav ul li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.docs-nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.docs-content {
+  flex: 1;
+  padding-left: 2rem;
+}
+
+.docs-content h1 {
+  margin-bottom: 2rem;
+  /*color: #333;*/
+  /**/
+}
+
+.docs-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  /*color: #444;*/
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.docs-content p,
+.docs-content ul {
+  /*color: #555;*/
+  line-height: 1.6;
+}
+
+.docs-content ul {
+  padding-left: 1.5rem;
+}
+
+.docs-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .docs-container {
+    flex-direction: column;
+  }
+  .docs-nav {
+    width: 100%;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .docs-content {
+    padding-left: 0;
+  }
+}
+

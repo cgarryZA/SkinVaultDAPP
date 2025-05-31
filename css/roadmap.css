@@ -1,0 +1,148 @@
+.roadmap-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #05192b;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.roadmap-phase {
+  margin-bottom: 2rem;
+}
+
+.roadmap-phase h2 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.roadmap-phase ul {
+  list-style: none;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.roadmap-phase ul::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #007bff;
+}
+
+.roadmap-phase ul li {
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 1rem;
+  transition: color 0.3s;
+}
+
+.roadmap-phase ul li::before {
+  content: '•';
+  color: #007bff;
+  font-size: 1.2rem;
+  position: absolute;
+  left: -0.3rem;
+  top: 0;
+}
+
+.roadmap-phase ul li.completed {
+  /*color: #888;*/
+  text-decoration: line-through;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+  background: #05192b;
+  border-radius: 8px;
+}
+
+.cta-section h2 {
+  margin-bottom: 1rem;
+}
+
+.cta-section button {
+  padding: 0.8rem 2rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cta-section button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.roadmap-phase ul li {
+  opacity: 0;
+  animation: fadeInUp 0.6s forwards;
+  animation-delay: calc(0.2s * var(--animation-order));
+}
+
+.roadmap-phase ul li:nth-child(1) { --animation-order: 1; }
+.roadmap-phase ul li:nth-child(2) { --animation-order: 2; }
+.roadmap-phase ul li:nth-child(3) { --animation-order: 3; }
+.roadmap-phase ul li:nth-child(4) { --animation-order: 4; }
+.roadmap-phase ul li:nth-child(5) { --animation-order: 5; }
+.roadmap-phase ul li:nth-child(6) { --animation-order: 6; }
+.roadmap-phase ul li:nth-child(7) { --animation-order: 7; }
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.hero {
+  width: 100vw;            /* Ensures full width */
+  min-height: 220px;       /* Optional: visual space */
+  display: flex;
+  justify-content: center; /* Horizontally center contents */
+  align-items: center;     /* Vertically center (if parent is tall) */
+  padding: 2rem 0 1rem 0;
+  background: transparent; /* Or your preferred bg */
+}
+
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* Horizontally center all children */
+  width: 100%;             /* Ensures children can center within */
+}
+
+.hero-logo {
+  max-width: 120px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-text {
+  text-align: center;
+  color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.hero,
+.hero-center {
+  width: 100vw;
+  box-sizing: border-box;
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKINDEX Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/docs.css">
+  <script src="js/common.js"></script>
+  <script src="js/docs.js"></script>
+</head>
+<body onload="initDocs()">
+  <div id="header-placeholder"></div>
+
+  <main class="docs-container">
+    <nav class="docs-nav">
+      <h3>Contents</h3>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#tokenomics">Tokenomics</a></li>
+        <li><a href="#architecture">System Architecture</a></li>
+        <li><a href="#trading-bot">Trading Bot</a></li>
+        <li><a href="#valuation">Valuation</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#investment">Investment Rationale</a></li>
+        <li><a href="#compliance">Legal & Compliance</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+      </ul>
+    </nav>
+
+    <section class="docs-content">
+      <h1>SkinVault Documentation</h1>
+
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <p>SkinVault is a CS2 skin tracker fund, designed to provide an easy path to skin investing.
+          The Value of this vault is tracked using SKINDEX, an Ethereum based ERC-20 token.
+        </p>
+      </section>
+
+      <section id="tokenomics">
+        <h2>Tokenomics</h2>
+        <p>
+          SKINDEX is minted when the user deposits Ethereum into the SkinVault SmartContract.
+          This SKINDEX is minted at a rate determined by the Vault.
+          The rate is Total Assets minus the Mint Fee and Dev Fee.
+        </p>
+        <p>
+          SKINDEX can be burned at any time to release the value stored in the Vault.
+          This is calculated as NAV - Burn Fee.
+        </p>
+        <p>
+          The fees for the SkinVault SmartContract are adjustable but have maximum values set in the SmartContract.
+          The mint and burn fees are to encourage net asset flow into the Vault.
+          The burn fee is to discourage Vault withdrawals and encourage trading the token on exchanges.
+          The dev fee is to provide funds for continued development and other costs of running the project.
+          These fees are adjustable with the view of the burn fee being decreased as the Vault grows in value.
+          The current fees can be found on the mint page or via interacting with the SmartContract.
+        </p>
+      </section>
+
+      <section id="architecture">
+        <h2>System Architecture</h2>
+        <p>
+          The SmartContract maintains several "Pools".
+          The largest of these is the Skin Pool which is the system of steam accounts which hold the skins.
+          The next largest is the BTC reserve, this is to ensure liquidity for withdrawals to buffer between the Eth Pool and the Skin Pool.
+          Without the BTC reserve the user would have to wait for the sale of skins in the Vault before they recieved their Eth.
+          The smallest pool is the Eth Pool. This too acts as liquidity for withdrawals to act as a buffer between the BTC Pool and the withdrawal.
+        </p>
+      </section>
+
+      <section id="trading-bot">
+        <h2>Trading Bot Infrastructure</h2>
+        <p>
+          The system of steam accounts hold the Counter Strike skins.
+          When a deposit or burn action is made to the smart contract, the trading program activates.
+          This checks the current inventory of the Vault and decides which skins are under or over-represented.
+          Buy orders are created for under-represented skins and sell orders are created if any skins are over-represented by a significant amount.
+          This ensures the investment strategy is followed.
+        </p>
+      </section>
+
+      <section id="valuation">
+        <h2>Valuation</h2>
+        <p>
+        The value of the Vault is defined as the sum of all the Pools. The value in Eth and BTC are determined from market prices.'
+        The value of the Skins is determined by Pricempire.
+        </p>
+      </section>
+
+      <section id="security">
+        <h2>Security Measures</h2>
+        <ul>
+          <li>Open-source smart contracts</li>
+          <li>Audited contracts</li>
+          <li>Bot-managed custody via multisig</li>
+        </ul>
+      </section>
+
+      <section id="investment">
+        <h2>Investment Rationale</h2>
+        <p>Stable, appreciating asset backed by high-demand CS:GO skins and crypto.</p>
+      </section>
+
+      <section id="compliance">
+        <h2>Legal & Compliance</h2>
+        <p>Compliant with AML/KYC and local securities laws.</p>
+      </section>
+
+      <section id="faq">
+        <h2>FAQs</h2>
+        <p>Answers to frequently asked questions.</p>
+        <ul>
+          <p>
+            Q: What Prevents this project from being Rugged
+          </p>
+          <p>
+            A: The SKINDEX token is only minted when ETH is deposited to the contract and is burned when ETH is released.
+              There is no existing supply for someone to dump causing a classic rug pull. If a major holder were to burn
+              a large quantity of SKINDEX the contract would pause when the BTC and ETH Pools were empty and would wait for
+              The sale of skins equal to the value of SKINDEX burnt. This means the price of existing SKINDEX stays the same.
+              For example if half the supply of SKINDEX was burnt, half the value of the vault would be sent to the burner,
+              but the supply of SKINDEX would be halved so the price of SKINDEX would stay the same.
+          </p>
+        </ul>
+      </section>
+
+      <section id="glossary">
+        <h2>Glossary</h2>
+        <p>Definitions for all specialized terms used in documentation.</p>
+      </section>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+</body>
+</html>
