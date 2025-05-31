@@ -89,3 +89,47 @@ function showSuccessToast(message, timeout = 4000) {
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, timeout);
 }
+
+
+// Contract setup
+const provid = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/5dba97c18dde4cc8b8a9bcf2c9b3c510"); // Replace with your RPC URL
+const VAULT_ADD = "0xFEd23180494cADe2231f0470a2450BC9Ac7F25e9"; // Replace with your contract address
+
+const VAULT_A = [
+  "event PoolAllocation(int256 ethDelta, int256 btcDelta, int256 skinsDelta, uint256 navAfter)"
+];
+
+const vaul = new ethers.Contract(VAULT_ADD, VAULT_A, provid);
+
+async function getLatestPoolAllocation() {
+  // Get event topic
+  const iface = new ethers.utils.Interface(VAULT_A);
+  const topic = iface.getEventTopic("PoolAllocation");
+
+  // Get all events, you could optimize by searching a limited recent block range
+  const logs = await provid.getLogs({
+    address: VAULT_ADD,
+    topics: [topic],
+    fromBlock: 0,       // Use latest 5k blocks for speed: e.g. latest - 5000
+    toBlock: "latest"
+  });
+
+  if (logs.length === 0) {
+    console.log("No PoolAllocation events found.");
+    return;
+  }
+
+  // Get the latest log
+  const latestLog = logs[logs.length - 1];
+
+  // Decode it
+  const event = iface.parseLog(latestLog);
+
+  // Show the decoded event values
+  console.log("ethDelta:", event.args.ethDelta.toString()/1e18);
+  console.log("btcDelta:", event.args.btcDelta.toString()/1e18);
+  console.log("skinsDelta:", event.args.skinsDelta.toString()/1e18);
+  console.log("navAfter:", ethers.utils.formatEther(event.args.navAfter));
+}
+
+getLatestPoolAllocation();
