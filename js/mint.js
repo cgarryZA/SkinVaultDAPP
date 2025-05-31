@@ -29,11 +29,11 @@ async function initMintPage() {
             await connectWallet();
             initMintPage(); // re-run once connected
           } catch (err) {
-            alert("Connection failed: " + err.message);
+            showToast("Connection failed: " + parseEthersError(err.message));
           }
         });
     } else {
-      alert(e.message);
+      showToast(e.message);
     }
     return; // halt until we have a wallet
   }
@@ -71,14 +71,15 @@ async function initMintPage() {
 
   // 6) Fetch & render all stats
   async function updateStats() {
-    const [navP, vaultV, userSK, burnFeeBP, mintFeeBP, devFeeBP] = await Promise.all([
-      vault.getNavPerToken(),
-      vault.getNAV(),
-      skindex.balanceOf(user),
-      vault.burnFeeBP(),
-      vault.mintFeeBP(),
-      vault.devFeeBP()
-    ]);
+    const [navP, vaultV, userSK, burnFeeBP, mintFeeBP, devFeeBP] =
+      await Promise.all([
+        vault.getNavPerToken(),
+        vault.getNAV(),
+        skindex.balanceOf(user),
+        vault.burnFeeBP(),
+        vault.mintFeeBP(),
+        vault.devFeeBP(),
+      ]);
     const userEthBal = await provider.getBalance(user);
 
     const f = (x) => parseFloat(ethers.utils.formatEther(x));
@@ -87,10 +88,10 @@ async function initMintPage() {
     const userSKF = f(userSK);
     const userEth = f(userEthBal);
 
-    const pct = bp => (parseFloat(bp) / 100).toFixed(2); 
-    mintFee.textContent    = pct(mintFeeBP);
-    burnFee.textContent    = pct(burnFeeBP);
-    devFee.textContent     = pct(devFeeBP);
+    const pct = (bp) => (parseFloat(bp) / 100).toFixed(2);
+    mintFee.textContent = pct(mintFeeBP);
+    burnFee.textContent = pct(burnFeeBP);
+    devFee.textContent = pct(devFeeBP);
 
     navPerTokenEl.textContent = `${navPF.toFixed(6)} ETH`;
     vaultValueEl.textContent = `${vaultVF.toFixed(6)} ETH`;
@@ -103,16 +104,22 @@ async function initMintPage() {
   mintBtn.onclick = () => {
     const ethValue = ethers.utils.parseEther(mintAmtInput.value || "0");
     return action("mint", { value: ethValue })
-      .then(updateStats)
-      .catch((err) => alert(err.message));
+      .then(() => {
+        showSuccessToast("Mint successful! Your SKINDEX has been minted.");
+        updateStats();
+      })
+      .catch((err) => showToast(parseEthersError(err)));
   };
 
   // 8) Burn button
   burnBtn.onclick = () => {
     const skAmount = ethers.utils.parseEther(burnAmtInput.value || "0");
     return action("burn", skAmount)
-      .then(updateStats)
-      .catch((err) => alert(err.message));
+      .then(() => {
+        showSuccessToast("Burn successful! Your SKINDEX has been burned.");
+        updateStats();
+      })
+      .catch((err) => showToast(parseEthersError(err)));
   };
 
   // 9) Max-Mint (net of estimated gas)

@@ -20,7 +20,7 @@
   <body onload="initVaultPage()">
     <div id="header-placeholder"></div>
 
-    <div class="vault-heading">
+    <div class="vault-heading" style="background: #1f2937; border-bottom: 1px solid #374151;">
       <h1>The Vault</h1>
       <button onclick="window.location.href='mint.html'">Get Started</button>
     </div>
@@ -133,11 +133,113 @@
     </div>
     <section style="padding-bottom:2rem; pointer-events:all;">
       <h2>View Steam Inventories</h2>
-      <!--<steam-user steamid="SkinVault01"></steam-user>-->
-      <steam-group group="SkinVaultETF"></steam-group>
-      <!--<steam-user steamid="76561198876154375"></steam-user>-->
+      <!--<steam-group group="SkinVaultETF"></steam-group>-->
+      <steam-user steamid="76561199861217732"></steam-user>
     </section>
 
     <div id="footer-placeholder"></div>
+    <div
+      id="metamaskModal"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #191a23;
+          color: white;
+          border-radius: 16px;
+          padding: 32px;
+          box-shadow: 0 8px 40px #0006;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          max-width: 90vw;
+        "
+      >
+        <h2 style="margin-bottom: 1rem">Connect Wallet</h2>
+        <p style="margin-bottom: 2rem; text-align: center">
+          To use this dApp, please connect your Ethereum wallet using MetaMask.
+        </p>
+        <button
+          id="connectMetamaskBtn"
+          style="
+            padding: 0.75rem 2rem;
+            background: #f6851b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+          "
+        >
+          Connect with MetaMask
+        </button>
+        <div
+          id="metamaskError"
+          style="color: #f55; margin-top: 1rem; display: none"
+        ></div>
+      </div>
+    </div>
+            <div
+          id="metamaskError"
+          style="color: #f55; margin-top: 1rem; display: none"
+        ></div>
+      </div>
+    </div>
+    <div
+      id="toast"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #431c1c;
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+      "
+    >
+      <span id="toastMessage"></span>
+    </div>
+          <span id="toastMessage"></span>
+    </div>
+    <div
+      id="toastSuccess"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #206943; /* deep green */
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+        border-left: 5px solid #56ff56; /* accent */
+      "
+    >
+      <span id="toastSuccessMessage"></span>
+    </div>
   </body>
 </html>

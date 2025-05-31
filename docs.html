@@ -18,14 +18,18 @@
       <ul>
         <li><a href="#introduction">Introduction</a></li>
         <li><a href="#tokenomics">Tokenomics</a></li>
+        <li><a href="#fees">Fees Table</a></li>
         <li><a href="#architecture">System Architecture</a></li>
+        <li><a href="#diagram">Architecture Diagram</a></li>
         <li><a href="#trading-bot">Trading Bot</a></li>
         <li><a href="#valuation">Valuation</a></li>
         <li><a href="#security">Security</a></li>
         <li><a href="#investment">Investment Rationale</a></li>
+        <li><a href="#risks">Risks & Disclaimers</a></li>
         <li><a href="#compliance">Legal & Compliance</a></li>
         <li><a href="#faq">FAQs</a></li>
         <li><a href="#glossary">Glossary</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -34,59 +38,109 @@
 
       <section id="introduction">
         <h2>Introduction</h2>
-        <p>SkinVault is a CS2 skin tracker fund, designed to provide an easy path to skin investing.
-          The Value of this vault is tracked using SKINDEX, an Ethereum based ERC-20 token.
+        <p>
+          SkinVault is a blockchain-based ETF-style tracker fund for Counter-Strike 2 (CS2) skins, designed to give everyone access to skin investing—whether you’re a gamer, trader, or crypto investor. 
+          <br>
+          The value of this vault is tracked and accessible via SKINDEX, an Ethereum-based ERC-20 token that reflects the total net asset value (NAV) of the fund.
+        </p>
+        <p>
+          <b>Why CS2 Skins?</b> Skins are a unique, high-demand digital asset class with a strong secondary market, price appreciation history, and low correlation to broader crypto markets.
         </p>
       </section>
 
       <section id="tokenomics">
         <h2>Tokenomics</h2>
         <p>
-          SKINDEX is minted when the user deposits Ethereum into the SkinVault SmartContract.
-          This SKINDEX is minted at a rate determined by the Vault.
-          The rate is Total Assets minus the Mint Fee and Dev Fee.
+          SKINDEX is minted when you deposit Ethereum into the SkinVault SmartContract, at a rate determined by the current NAV and less applicable fees. 
+        </p>
+        <ul>
+          <li>SKINDEX can be burned at any time to redeem a proportional share of the vault’s assets (ETH), minus the burn fee.</li>
+          <li>All minting and burning actions are transparently tracked on-chain—no supply pre-mined or reserved for founders.</li>
+        </ul>
+        <p>
+          <b>SKINDEX Utility:</b> SKINDEX can be held for value exposure, traded on DEXes/CEXes, or burned for ETH redemption.
         </p>
         <p>
-          SKINDEX can be burned at any time to release the value stored in the Vault.
-          This is calculated as NAV - Burn Fee.
+          <b>Inflation/Deflation:</b> Total SKINDEX supply only increases when new ETH is deposited and decreases when SKINDEX is burned for redemption.
         </p>
-        <p>
-          The fees for the SkinVault SmartContract are adjustable but have maximum values set in the SmartContract.
-          The mint and burn fees are to encourage net asset flow into the Vault.
-          The burn fee is to discourage Vault withdrawals and encourage trading the token on exchanges.
-          The dev fee is to provide funds for continued development and other costs of running the project.
-          These fees are adjustable with the view of the burn fee being decreased as the Vault grows in value.
-          The current fees can be found on the mint page or via interacting with the SmartContract.
-        </p>
+      </section>
+
+      <section id="fees">
+        <h2>Fees Table</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Fee Type</th>
+              <th>Current Value</th>
+              <th>Maximum</th>
+              <th>Who Receives</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mint Fee</td>
+              <td>As displayed on mint page</td>
+              <td>5% (500 BP)</td>
+              <td>Vault</td>
+            </tr>
+            <tr>
+              <td>Burn Fee</td>
+              <td>As displayed on mint page</td>
+              <td>10% (1000 BP)</td>
+              <td>Vault</td>
+            </tr>
+            <tr>
+              <td>Dev Fee</td>
+              <td>As displayed on mint page</td>
+              <td>5% (500 BP)</td>
+              <td>Development wallet</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>All fees are adjustable via governance but limited by the smart contract. Fee changes are always visible on the UI and contract.</p>
       </section>
 
       <section id="architecture">
         <h2>System Architecture</h2>
         <p>
-          The SmartContract maintains several "Pools".
-          The largest of these is the Skin Pool which is the system of steam accounts which hold the skins.
-          The next largest is the BTC reserve, this is to ensure liquidity for withdrawals to buffer between the Eth Pool and the Skin Pool.
-          Without the BTC reserve the user would have to wait for the sale of skins in the Vault before they recieved their Eth.
-          The smallest pool is the Eth Pool. This too acts as liquidity for withdrawals to act as a buffer between the BTC Pool and the withdrawal.
+          The SmartContract manages multiple “Pools” of assets:
+          <ul>
+            <li><b>Skin Pool:</b> Off-chain Steam accounts holding CS2 skins, managed by secure bots.</li>
+            <li><b>BTC Pool:</b> Off-chain BTC reserves for added withdrawal liquidity.</li>
+            <li><b>ETH Pool:</b> On-chain ETH reserves held in the contract for instant redemption/liquidity.</li>
+          </ul>
+          All pools combine to determine NAV. Vault value updates are based on market prices and third-party APIs.
+        </p>
+        <p>
+          Off-chain asset values (skins, BTC) are regularly synced by trusted oracles/bots. On-chain ETH is always visible.
         </p>
       </section>
 
       <section id="trading-bot">
         <h2>Trading Bot Infrastructure</h2>
         <p>
-          The system of steam accounts hold the Counter Strike skins.
-          When a deposit or burn action is made to the smart contract, the trading program activates.
-          This checks the current inventory of the Vault and decides which skins are under or over-represented.
-          Buy orders are created for under-represented skins and sell orders are created if any skins are over-represented by a significant amount.
-          This ensures the investment strategy is followed.
+          <b>How it works:</b> When deposits or withdrawals (burns) happen, the trading bot reviews vault inventory and market prices.
+          <ul>
+            <li>Under-represented skins trigger buy orders via 3rd-party market places.</li>
+            <li>Over-represented skins or excess value trigger sell orders.</li>
+            <li>Bots optimize for target portfolio allocation and execute trades automatically. Manual override is possible for upgrades or emergencies.</li>
+          </ul>
+          <b>Platforms used:</b> Steam Market, 3rd-party skin trading sites, and CEX/DEX for BTC/ETH conversion.
         </p>
       </section>
 
       <section id="valuation">
         <h2>Valuation</h2>
         <p>
-        The value of the Vault is defined as the sum of all the Pools. The value in Eth and BTC are determined from market prices.'
-        The value of the Skins is determined by Pricempire.
+          The vault’s Net Asset Value (NAV) is calculated as the sum of:
+          <ul>
+            <li>ETH Pool (on-chain ETH balance)</li>
+            <li>BTC Pool (BTC reserves, valued at current price from a top-3 CEX)</li>
+            <li>Skin Pool (skin value from <b>Pricempire</b> API)</li>
+          </ul>
+        </p>
+        <p>
+          NAV is updated at least every 12 hours, or whenever large deposits/withdrawals happen.
         </p>
       </section>
 
@@ -94,46 +148,168 @@
         <h2>Security Measures</h2>
         <ul>
           <li>Open-source smart contracts</li>
-          <li>Audited contracts</li>
-          <li>Bot-managed custody via multisig</li>
+          <li>Emergency pause/upgrade available to vault manager</li>
+          <li>External oracle for price feeds, monitored for manipulation</li>
         </ul>
+        <p><b>Key Risks Addressed:</b> Vault cannot be rugged due to transparent, on-chain accounting and withdrawal logic. Steam accounts and API keys are secured and monitored. If off-chain assets become inaccessible, contract will pause withdrawals until value is restored.</p>
       </section>
 
       <section id="investment">
         <h2>Investment Rationale</h2>
-        <p>Stable, appreciating asset backed by high-demand CS:GO skins and crypto.</p>
+        <p>
+          CS2 skins have shown stable or appreciating value over time due to limited supply, high user demand, and strong gaming community support. By pooling assets and automating trading, SkinVault provides investors with easy, diversified exposure to this asset class, combined with crypto-native liquidity and transparency.
+        </p>
+        <ul>
+          <li>Historically, high-tier skins have outperformed many altcoins on a risk-adjusted basis.</li>
+          <li>Crypto and skins combined reduce correlation with traditional markets.</li>
+        </ul>
+      </section>
+
+      <section id="risks">
+        <h2>Risks & Disclaimers</h2>
+        <ul>
+          <li>Skin prices are volatile and can be affected by game updates or policy changes.</li>
+          <li>Steam/3rd party API bans or outages may temporarily pause redemptions.</li>
+          <li>Smart contract bugs and exploits can never be 100% ruled out.</li>
+          <li>Regulatory changes may affect project operation or user eligibility in some countries.</li>
+          <li>Past performance is not a guarantee of future returns.</li>
+        </ul>
       </section>
 
       <section id="compliance">
         <h2>Legal & Compliance</h2>
-        <p>Compliant with AML/KYC and local securities laws.</p>
+        <ul>
+          <li>Available to users in most jurisdictions except where restricted by law.</li>
+          <li>This is not an offer or solicitation to buy securities in any jurisdiction.</li>
+        </ul>
+        <p>
+          <b>Regulatory Status:</b> SKINDEX is intended as a utility token; it is not a security. However, users are responsible for compliance with their own local laws and regulations.
+        </p>
       </section>
 
       <section id="faq">
         <h2>FAQs</h2>
-        <p>Answers to frequently asked questions.</p>
         <ul>
-          <p>
-            Q: What Prevents this project from being Rugged
-          </p>
-          <p>
-            A: The SKINDEX token is only minted when ETH is deposited to the contract and is burned when ETH is released.
-              There is no existing supply for someone to dump causing a classic rug pull. If a major holder were to burn
-              a large quantity of SKINDEX the contract would pause when the BTC and ETH Pools were empty and would wait for
-              The sale of skins equal to the value of SKINDEX burnt. This means the price of existing SKINDEX stays the same.
-              For example if half the supply of SKINDEX was burnt, half the value of the vault would be sent to the burner,
-              but the supply of SKINDEX would be halved so the price of SKINDEX would stay the same.
-          </p>
+          <li>
+            <b>Q:</b> What prevents a rug pull?<br>
+            <b>A:</b> All assets are held in transparent, auditable smart contracts. No pre-mined SKINDEX exists and withdrawals are always matched by asset value.
+          </li>
+          <li>
+            <b>Q:</b> How do I deposit or withdraw?<br>
+            <b>A:</b> Connect your Ethereum wallet and use the Mint/Burn functions on our web app.
+          </li>
+          <li>
+            <b>Q:</b> What wallets are supported?<br>
+            <b>A:</b> Any standard Ethereum wallet (MetaMask, WalletConnect, Ledger, Trezor).
+          </li>
+          <li>
+            <b>Q:</b> How is my privacy protected?<br>
+            <b>A:</b> No personal info is collected unless required by law (AML/KYC for large withdrawals).
+          </li>
+          <li>
+            <b>Q:</b> What happens if the Steam accounts are banned?<br>
+            <b>A:</b> Trading is paused and a recovery process is initiated. NAV is protected; redemptions may be delayed.
+          </li>
+          <li>
+            <b>Q:</b> Can I lose money?<br>
+            <b>A:</b> Yes—crypto and skin prices can go down as well as up. Always do your own research.
+          </li>
+          <li>
+            <b>Q:</b> How often are values updated?<br>
+            <b>A:</b> At least every 12 hours, or more frequently if market conditions require.
+          </li>
+          <li>
+            <b>Q:</b> Where can I find the smart contract?<br>
+            <b>A:</b> <a href="https://etherscan.io/address/0xFEd23180494cADe2231f0470a2450BC9Ac7F25e9" target="_blank">SkinVault on Etherscan</a>
+          </li>
+          <li>
+            <b>Q:</b> Who do I contact for support?<br>
+            <b>A:</b> See the Contact section below.
+          </li>
         </ul>
       </section>
 
       <section id="glossary">
         <h2>Glossary</h2>
-        <p>Definitions for all specialized terms used in documentation.</p>
+        <ul>
+          <li><b>NAV:</b> Net Asset Value (total value of all pools in ETH terms)</li>
+          <li><b>SKINDEX:</b> The ERC-20 token representing a share of the vault</li>
+          <li><b>Mint Fee:</b> Fee taken when minting SKINDEX for ETH</li>
+          <li><b>Burn Fee:</b> Fee taken when redeeming ETH for SKINDEX</li>
+          <li><b>Pool:</b> Any asset collection tracked by the contract (ETH, BTC, Skins)</li>
+          <li><b>Pricempire:</b> Leading price aggregator API for CS2 skins</li>
+          <li><b>Multisig:</b> Wallet controlled by multiple independent parties</li>
+          <li><b>Oracles:</b> Bots/scripts that provide off-chain price and inventory data to the contract</li>
+        </ul>
+      </section>
+
+      <section id="contact">
+        <h2>Contact & Support</h2>
+        <p>
+          For support, business, or bug reports:
+          <ul>
+            <li>Email: <a href="mailto:skinvaultetf@gmail.com">skinvaultetf@gmail.com</a></li>
+            <li>GitHub: <a href="https://github.com/cgarryZA/" target="_blank">cgarryZA</a></li>
+            <li>Twitter: <a href="https://twitter.com/skinvaultfund" target="_blank">@skinvaultfund</a></li>
+            <li>Discord: <a href="https://discord.gg/cw79ESMKFJ" target="_blank">https://discord.gg/cw79ESMKFJ</a><i></i></li>
+          </ul>
+        </p>
+        <p style="font-size:0.85em;color:#888;">Last updated: May 2025. Always verify contract addresses and links before using.</p>
       </section>
     </section>
   </main>
 
   <div id="footer-placeholder"></div>
+          <div
+          id="metamaskError"
+          style="color: #f55; margin-top: 1rem; display: none"
+        ></div>
+      </div>
+    </div>
+    <div
+      id="toast"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #431c1c;
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+      "
+    >
+      <span id="toastMessage"></span>
+    </div>
+          <span id="toastMessage"></span>
+    </div>
+    <div
+      id="toastSuccess"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #206943; /* deep green */
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+        border-left: 5px solid #56ff56; /* accent */
+      "
+    >
+      <span id="toastSuccessMessage"></span>
+    </div>
 </body>
 </html>

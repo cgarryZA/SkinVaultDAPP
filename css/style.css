@@ -307,3 +307,13 @@ footer nav a {
 body {
   overflow-x: hidden;
 }
+
+#metamaskModal {
+  display: flex; /* enables flex centering */
+}
+@media (max-width: 500px) {
+  #metamaskModal > div {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}

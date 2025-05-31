@@ -76,4 +76,55 @@
 
     <div id="footer-placeholder"></div>
   </body>
+          <div
+          id="metamaskError"
+          style="color: #f55; margin-top: 1rem; display: none"
+        ></div>
+      </div>
+    </div>
+    <div
+      id="toast"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #431c1c;
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+      "
+    >
+      <span id="toastMessage"></span>
+    </div>
+          <span id="toastMessage"></span>
+    </div>
+    <div
+      id="toastSuccess"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        min-width: 200px;
+        max-width: 350px;
+        background: #206943; /* deep green */
+        color: #fff;
+        padding: 1em 1.4em;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        font-size: 1em;
+        z-index: 10001;
+        transition: all 0.3s;
+        border-left: 5px solid #56ff56; /* accent */
+      "
+    >
+      <span id="toastSuccessMessage"></span>
+    </div>
 </html>

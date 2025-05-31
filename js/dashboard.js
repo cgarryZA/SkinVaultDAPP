@@ -3,7 +3,7 @@ async function dashboardInit() {
   try {
     await connectWallet();
   } catch (e) {
-    alert(e.message);
+    showToast(parseEthersError(e));
     return window.location = 'index.html';
   }
 

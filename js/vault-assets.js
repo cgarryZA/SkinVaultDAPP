@@ -4,14 +4,10 @@ async function initVaultAssets(){
   const signer   = provider.getSigner();
 
   // 3) compute net ETH deposited via mint/burn events
-  //const { totalMintedWei, totalBurnedWei } = await vaultContractUtils.sumMintBurn(VAULT_ADDRESS, provider);
-  //const ethDepositedWei = totalMintedWei.sub(totalBurnedWei);
-  //const ethDeposited    = parseFloat(ethers.utils.formatEther(ethDepositedWei));
-
   const allVaultAddresses = [
     "0xa82832a77C06e148560470d6c2efBAb0B3B332Bb",
-    "0x2E22a92eF5562688B97df46d8AAa01Ad86597F66"
-    ];
+    "0xFEd23180494cADe2231f0470a2450BC9Ac7F25e9",
+  ];
   let totalMintedWei = ethers.BigNumber.from(0);
   let totalBurnedWei = ethers.BigNumber.from(0);
 
@@ -21,6 +17,7 @@ async function initVaultAssets(){
     totalBurnedWei = totalBurnedWei.add(b);
   }
   const ethDeposited = parseFloat(ethers.utils.formatEther(totalMintedWei.sub(totalBurnedWei)));
+  
 
   // 4) fetch skins‐value and NAV (vaultValuation)
   const vaultData = await vaultContractUtils.getVaultData(VAULT_ADDRESS, signer);
@@ -34,20 +31,18 @@ async function initVaultAssets(){
   const vaultGrowth = ethDeposited > 0
   ? ((nav - ethDeposited) / ethDeposited) * 100
   : 0;
-  console.log(nav);
-  console.log(ethDeposited);
 
     // 6) write values into your banner cards
   document.getElementById('ethDepositedValue').textContent  =
-    `${trimDecimals(ethDeposited, 6)} ETH`;
+    `${trimDecimals(ethDeposited, 4)} ETH`;
   document.getElementById('ethHeldValue').textContent       =
-    `${trimDecimals(ethHeld,      6)} ETH`;
+    `${trimDecimals(ethHeld,      4)} ETH`;
   document.getElementById('skinsOwnedValue').textContent    =
-    `${trimDecimals(skinsOwned,   6)} ETH`;
+    `${trimDecimals(skinsOwned,   4)} ETH`;
   document.getElementById('btcHeldValue').textContent       =
-    `${trimDecimals(btcHeld,      6)} BTC`;
+    `${trimDecimals(btcHeld,      4)} BTC`;
   document.getElementById('VaultValue').textContent         =
-    `${trimDecimals(vaultVal,     6)} ETH`;
+    `${trimDecimals(vaultVal,     4)} ETH`;
   document.getElementById('vaultGrowthValue').textContent   =
     `${trimDecimals(vaultGrowth,  2)} %`;
 }
