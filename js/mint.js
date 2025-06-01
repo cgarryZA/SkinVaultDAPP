@@ -1,17 +1,7 @@
 // js/mint.js
-
 async function initMintPage() {
   // 1) Load header & footer
-  await includeComponent(
-    "header-placeholder",
-    "/html-components/header.html",
-    "css/header.css"
-  );
-  await includeComponent(
-    "footer-placeholder",
-    "/html-components/footer.html",
-    "css/footer.css"
-  );
+  insertHeaderFooter();
 
   const accountEl = document.getElementById("account");
 

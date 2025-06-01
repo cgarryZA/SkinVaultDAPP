@@ -1,35 +1,21 @@
-// vault-contract.js
+// contract-functions.js
 ;(function(window){
-  const { ethers } = window;
+  const { ethers, CONTRACTS } = window;
 
-  // — your ABIs —
-  const VAULT_ABI = [
-    'function owner() view returns (address)',
-    'function vaultManager() view returns (address)',
-    'function getBalETH() view returns (uint256)',
-    'function getNAV() view returns (uint256)',
-    'function getNavPerToken() view returns (uint256)',
-    'function skinsVal() view returns (uint256)',
-    'function btcVal() view returns (uint256)',
-    'event Minted(address indexed user, uint256 ethIn, uint256 tokensToUser)',
-    'event Burned(address indexed user, uint256 tokensBurned, uint256 ethOut)'
-  ];
-  const ERC20_ABI = [
-    'function balanceOf(address) view returns (uint256)',
-    'function totalSupply() view returns (uint256)'
-  ];
-
-  // — factory helpers —
+  // Factory helpers: don't need to define ABIs here, just import them from window.CONTRACTS
   function createVaultContract(address, signerOrProvider) {
-    return new ethers.Contract(address, VAULT_ABI, signerOrProvider);
+    return new ethers.Contract(address, CONTRACTS.VAULT_ABI, signerOrProvider);
   }
   function createErc20Contract(address, signerOrProvider) {
-    return new ethers.Contract(address, ERC20_ABI, signerOrProvider);
+    return new ethers.Contract(address, CONTRACTS.ERC20_ABI, signerOrProvider);
   }
 
-  // — sum all Minted / Burned events to get total ETH in/out —
+  // --- sum all Minted / Burned events to get total ETH in/out ---
   async function sumMintBurn(vaultAddress, provider) {
-    const iface = new ethers.utils.Interface(VAULT_ABI);
+    const iface = new ethers.utils.Interface([
+      'event Minted(address indexed user, uint256 ethIn, uint256 tokensToUser)',
+      'event Burned(address indexed user, uint256 tokensBurned, uint256 ethOut)'
+    ]);
     const mintTopic = iface.getEventTopic('Minted');
     const burnTopic = iface.getEventTopic('Burned');
 
@@ -51,17 +37,18 @@
     return { totalMintedWei, totalBurnedWei };
   }
 
-  // — grab all Vault view functions in one go —
-  async function getVaultData(vaultAddress, signer) {
-    const vault = createVaultContract(vaultAddress, signer);
+  // --- Get all Vault view data in one go ---
+  async function getVaultData(vaultAddress, providerOrSigner) {
+    const vault = createVaultContract(vaultAddress, providerOrSigner);
     const [
       owner,
       vaultManager,
       ethBalanceWei,
       vaultValuationWei,
-      inherentSkxWei,
+      navPerTokenWei,
       skinsValueWei,
-      btcReserveWei
+      btcReserveWei,
+      ethDepositedWei
     ] = await Promise.all([
       vault.owner(),
       vault.vaultManager(),
@@ -69,20 +56,22 @@
       vault.getNAV(),
       vault.getNavPerToken(),
       vault.skinsVal(),
-      vault.btcVal()
+      vault.btcVal(),
+      vault.ethDeposited()
     ]);
     return {
       owner,
       vaultManager,
       ethBalanceWei,
       vaultValuationWei,
-      inherentSkxWei,
+      navPerTokenWei,
       skinsValueWei,
-      btcReserveWei
+      btcReserveWei,
+      ethDepositedWei
     };
   }
 
-  // — grab SKINDEX token totalSupply & balanceOf →
+  // --- Get SKINDEX token stats
   async function getSkindexData(tokenAddress, account, providerOrSigner) {
     const token = createErc20Contract(tokenAddress, providerOrSigner);
     const [ totalSupply, balance ] = await Promise.all([
@@ -92,7 +81,6 @@
     return { totalSupply, balance };
   }
 
-  // expose
   window.vaultContractUtils = {
     sumMintBurn,
     getVaultData,
