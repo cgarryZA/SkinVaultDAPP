@@ -7,8 +7,7 @@ async function initVaultPage() {
   // 2) Now wire up one global click handler:
   setupGlobalClickHandler();
 
-  // 3) Your existing vault-assets setup
-  initVaultAssets();
+  startVaultAssets();
 }
 
 function setupGlobalClickHandler() {
